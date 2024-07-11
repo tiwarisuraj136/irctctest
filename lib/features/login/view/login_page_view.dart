@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -60,19 +58,21 @@ class LoginPageView extends GetView<LoginPageController>{
                       ),
                     ),
                   ),
-
                   const SizedBox(height: 50),
-                  TextField(
+                  Obx(() => TextField(
+                    controller: controller.emailController,
                     decoration: InputDecoration(
                       labelText: 'Email ID',
                       prefixIcon: const Icon(Icons.email),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
+                      errorText: controller.emailError.value.isEmpty ? null : controller.emailError.value,
                     ),
-                  ),
+                  )),
                   const SizedBox(height: 20),
                   Obx(() => TextField(
+                    controller: controller.passwordController,
                     obscureText: controller.isPasswordHidden.value,
                     decoration: InputDecoration(
                       labelText: 'Password',
@@ -86,14 +86,12 @@ class LoginPageView extends GetView<LoginPageController>{
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
+                      errorText: controller.passwordError.value.isEmpty ? null : controller.passwordError.value,
                     ),
                   )),
                   const SizedBox(height: 30),
                   ElevatedButton(
-                    onPressed: () {
-                      Get.toNamed(RoutesConstant.home);
-                      // Handle login action
-                    },
+                    onPressed: controller.login,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue, // Set the button color to blue
                       minimumSize: const Size(double.infinity, 50),
@@ -120,22 +118,6 @@ class LoginPageView extends GetView<LoginPageController>{
                     ],
                   ),
                   const SizedBox(height: 20),
-                 /* ElevatedButton(
-                    onPressed: () {
-                      Get.toNamed(RoutesConstant.phone);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue, // Set the button color to blue
-                      minimumSize: const Size(double.infinity, 50),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    child: const Center(
-                      child: Text('OTP', style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 18)),
-                    ),
-                  ),
-                  const SizedBox(height: 15),*/
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -147,7 +129,7 @@ class LoginPageView extends GetView<LoginPageController>{
                         },
                       ),
                       IconButton(
-                        icon: const Icon(SunBrandIcons.google),
+                        icon: const Icon(FontAwesomeIcons.google),
                         iconSize: 35,
                         onPressed: () {
                           // Handle Google login
@@ -157,7 +139,7 @@ class LoginPageView extends GetView<LoginPageController>{
                         icon: const Icon(Icons.call),
                         iconSize: 40,
                         onPressed: () {
-                          Get.toNamed(RoutesConstant.phone);
+                          Get.toNamed('/phone'); // Replace with your route
                           // Handle Otp login
                         },
                       ),
@@ -175,11 +157,11 @@ class LoginPageView extends GetView<LoginPageController>{
             child: Center(
               child: TextButton(
                 onPressed: () {
-                  Get.toNamed(RoutesConstant.signUp);
+                  Get.toNamed(RoutesConstant.signUp); // Replace with your route
                 },
                 child: const Text(
                   "Don't have an account? Sign Up",
-                  style: TextStyle(color: Colors.black,),
+                  style: TextStyle(color: Colors.black),
                 ),
               ),
             ),

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "217077283908",
+    "project_id": "irctctest-eacdb",
+    "storage_bucket": "irctctest-eacdb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:217077283908:android:603f52a16cd4938da0d011",
+        "android_client_info": {
+          "package_name": "com.example.irctctest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgktSY5xjnjfGhl-nacefyvpVYgByGLds"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

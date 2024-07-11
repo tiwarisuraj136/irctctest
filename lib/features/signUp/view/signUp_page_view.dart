@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:irctctest/core/routes_constant.dart';
 import 'package:irctctest/features/signUp/controller/signUp_page_controller.dart';
-import 'package:sunicons/sunicons.dart';
 
 class SignUpPageView extends GetView<SignUpController> {
   const SignUpPageView({super.key});
@@ -38,10 +36,8 @@ class SignUpPageView extends GetView<SignUpController> {
                     ),
                   ],
                 ),
-
               ],
             ),
-
           ),
           Center(
             child: SingleChildScrollView(
@@ -60,39 +56,45 @@ class SignUpPageView extends GetView<SignUpController> {
                       ),
                     ),
                   ),
-
                   const SizedBox(height: 50),
-                  TextField(
+                  Obx(() => TextField(
+                    controller: controller.emailController,
                     decoration: InputDecoration(
                       labelText: 'Email ID',
                       prefixIcon: const Icon(Icons.email),
+                      errorText: controller.emailError.value.isEmpty ? null : controller.emailError.value,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                  ),
+                  )),
                   const SizedBox(height: 20),
-                  TextField(
+                  Obx(() => TextField(
+                    controller: controller.nameController,
                     decoration: InputDecoration(
                       labelText: 'Name',
                       prefixIcon: const Icon(Icons.person),
+                      errorText: controller.nameError.value.isEmpty ? null : controller.nameError.value,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                  ),
+                  )),
                   const SizedBox(height: 20),
-                  TextField(
+                  Obx(() => TextField(
+                    controller: controller.mobileController,
                     decoration: InputDecoration(
                       labelText: 'Mobile',
                       prefixIcon: const Icon(Icons.call),
+                      errorText: controller.mobileError.value.isEmpty ? null : controller.mobileError.value,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                  ),
+                  )),
                   const SizedBox(height: 20),
                   Obx(() => TextField(
+                    controller: controller.passwordController,
                     obscureText: controller.isPasswordHidden.value,
                     decoration: InputDecoration(
                       labelText: 'Password',
@@ -103,6 +105,7 @@ class SignUpPageView extends GetView<SignUpController> {
                             : Icons.visibility_off),
                         onPressed: controller.togglePasswordVisibility,
                       ),
+                      errorText: controller.passwordError.value.isEmpty ? null : controller.passwordError.value,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -111,7 +114,7 @@ class SignUpPageView extends GetView<SignUpController> {
                   const SizedBox(height: 30),
                   ElevatedButton(
                     onPressed: () {
-                      // Handle login action
+                      controller.signUp();
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue, // Set the button color to blue
@@ -139,7 +142,6 @@ class SignUpPageView extends GetView<SignUpController> {
                     ],
                   ),
                   const SizedBox(height: 15),
-
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -147,21 +149,28 @@ class SignUpPageView extends GetView<SignUpController> {
                         icon: const Icon(Icons.facebook),
                         iconSize: 40,
                         onPressed: () {
-                          // Handle Facebook login
+                          controller.signUpWithFacebook();
                         },
                       ),
                       IconButton(
-                        icon: const Icon(SunBrandIcons.google),
+                        icon: const Icon(Icons.logout),
+                        iconSize: 40,
+                        onPressed: () {
+                          controller.signOut();
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(FontAwesomeIcons.google),
                         iconSize: 35,
                         onPressed: () {
-                          // Handle Google login
+                          controller.signUpWithGoogle();
                         },
                       ),
                       IconButton(
                         icon: const Icon(Icons.call),
                         iconSize: 40,
                         onPressed: () {
-                          Get.toNamed(RoutesConstant.phone);
+                          Get.toNamed('/phone'); // Replace with your route
                           // Handle Otp login
                         },
                       ),
@@ -179,9 +188,7 @@ class SignUpPageView extends GetView<SignUpController> {
             child: Center(
               child: TextButton(
                 onPressed: () {
-                  Get.toNamed(RoutesConstant.login);
-                  // Navigate to SignUpPage
-                  // Get.to(() => SignUpPage());
+                  Get.toNamed('/login'); // Replace with your route
                 },
                 child: const Text(
                   "Don't have an account? Login",
