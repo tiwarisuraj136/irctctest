@@ -1,12 +1,15 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:irctctest/core/model/item_model.dart';
+import 'package:irctctest/core/routes_constant.dart';
 
 class HomeController extends GetxController {
 
 
   final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   var allInfo = <ItemModel>[].obs;
   RxBool isLoading = false.obs;
@@ -43,6 +46,16 @@ class HomeController extends GetxController {
         .collection('items')
         .doc(documentId)
         .delete();
+  }
+
+  Future<void> signOut() async {
+    try {
+      await auth.signOut();
+      Get.snackbar('Success', 'Log-out successful');
+      Get.toNamed(RoutesConstant.login); // Navigate to the login screen
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
+    }
   }
 
 

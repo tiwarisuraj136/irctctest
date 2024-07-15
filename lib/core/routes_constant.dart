@@ -1,6 +1,6 @@
 
 class RoutesConstant {
-  static String addForm = '/formadd_page.dart';
+  static String addForm = '/logout_page.dart';
   static String home = '/home_page_view.dart';
   static String item = '/items_add_page.dart';
   static String phone = '/phone_page.dart';
@@ -16,4 +16,5 @@ class RoutesConstant {
   static String passengerList = '/passenger_list_view.dart';
   static String addPassenger = '/add_passenger_view.dart';
   static String editPassenger = '/passenger_edit_page.dart';
+  static String logout = '/logout_page.dart';
 }

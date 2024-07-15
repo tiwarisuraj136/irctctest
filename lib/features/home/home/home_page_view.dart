@@ -18,7 +18,18 @@ class HomePageView extends GetView<HomeController> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () {
+              // Handle logout action
+              controller.signOut();
+              print("User logged out");
+            },
+          ),
+        ],
       ),
+
       body: Stack(
         children: [
           Container(

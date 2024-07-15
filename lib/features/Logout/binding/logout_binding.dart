@@ -1,12 +1,10 @@
 import 'package:get/get.dart';
 import 'package:irctctest/features/Logout/controller/logout_controller.dart';
-import 'package:irctctest/features/home/home/home_page_controller.dart';
 
-class HomePageBinding extends Bindings{
+class LogoutBinding extends Bindings{
   @override
   void dependencies() {
-    Get.lazyPut(() => HomeController());
-
+    Get.put(LogoutController());
     // TODO: implement dependencies
   }
 

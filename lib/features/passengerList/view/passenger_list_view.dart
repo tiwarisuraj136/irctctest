@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:irctctest/core/model/passenger_model.dart';
 import 'package:irctctest/core/routes_constant.dart';
 import 'package:irctctest/features/passengerList/controller/passenger_list_controller.dart';
 
@@ -38,16 +39,18 @@ class PassengerListView extends GetView<PassengerListController>{
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Checkbox(
+                            /*  Checkbox(
                                 value: passenger.selected,
                                 onChanged: (value) {
                                   controller.toggleSelection(index);
                                 },
-                              ),
+                              ),*/
                             ],
                           ),
                           const SizedBox(height: 8.0),
                           Text('Gender: ${passenger.gender}'),
+                          const SizedBox(height: 4.0),
+                          Text('Age: ${passenger.age}'),
                           const SizedBox(height: 4.0),
                           Text('Preference: ${passenger.preference}'),
                           const SizedBox(height: 8.0),
@@ -57,7 +60,8 @@ class PassengerListView extends GetView<PassengerListController>{
                               IconButton(
                                 icon: const Icon(Icons.edit),
                                 onPressed: () {
-                                  Get.toNamed(RoutesConstant.editPassenger);
+                                  Get.to(RoutesConstant.editPassenger);
+                                  // controller.toEdit(passenger);
                                   // Handle edit
                                 },
                               ),

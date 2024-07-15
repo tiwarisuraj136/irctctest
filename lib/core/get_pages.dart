@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:irctctest/core/routes_constant.dart';
 import 'package:irctctest/features/Items/binding/items_add_binding.dart';
 import 'package:irctctest/features/Items/view/items_add_page.dart';
+import 'package:irctctest/features/Logout/view/logout_page.dart';
 import 'package:irctctest/features/addPassenger/binding/add_passenger_binding.dart';
 import 'package:irctctest/features/addPassenger/view/add_passenger_view.dart';
 import 'package:irctctest/features/home/home/home_page_binding.dart';
@@ -87,8 +88,14 @@ List<GetPage> getpages = [
 
   GetPage(
     name: RoutesConstant.editPassenger,
-    page: () => const PassengerEditPage(),
+    page: () =>  PassengerEditPage(),
     binding: PassengerEditBinding(),
+  ),
+
+  GetPage(
+    name: RoutesConstant.logout,
+    page: () => const LogoutPage(),
+    binding: LoginPageBinding(),
   ),
 
 

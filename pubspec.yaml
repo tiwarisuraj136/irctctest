@@ -55,6 +55,8 @@ dependencies:
   sunicons: ^0.0.3
   flutter_facebook_auth: ^7.0.1
   firebase_app_check: ^0.3.0+3
+  sms_autofill: ^2.4.0
+  shared_preferences: ^2.2.3
 
 
 dev_dependencies:

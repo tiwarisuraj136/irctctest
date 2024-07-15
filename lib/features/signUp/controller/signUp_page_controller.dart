@@ -104,26 +104,7 @@ class SignUpController extends GetxController{
     }
   }
 
-  /*Future<void> signUpWithFacebook() async {
-    FacebookAuth fbauth=FacebookAuth.instance;
-    try {
-      // await fbauth.logOut();
-      // await auth.signOut();
-      final fbloginResult=await fbauth.login();
-      final userData=await fbauth.getUserData();
-      final fbAuthCredential=FacebookAuthProvider.credential(fbloginResult.accessToken!.tokenString);
-      await auth.signInWithCredential(fbAuthCredential);
-      print('userDatareere');
-      print(userData);
-      print('userDatatrtrtr');
-    } catch (e) {
-      await fbauth.logOut();
-      await auth.signOut();
-      print("hello i am here119");
-      print(e);
 
-    }
-  }*/
 
   void signOut() async {
     await auth.signOut();

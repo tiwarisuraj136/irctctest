@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:irctctest/core/routes_constant.dart';
 
 class LoginPageController  extends GetxController{
   final FirebaseAuth auth = FirebaseAuth.instance;
+  final GoogleSignIn googleSignIn = GoogleSignIn();
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
 
@@ -58,6 +60,29 @@ class LoginPageController  extends GetxController{
           Get.snackbar('Error', e.message ?? 'An error occurred');
         }
       }
+    }
+  }
+
+  Future<void> signInWithGoogle() async {
+    print("hello i a, here suraj");
+    try {
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+      if (googleUser == null) {
+        return; // User canceled the sign-in
+      }
+
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      UserCredential userCredential = await auth.signInWithCredential(credential);
+
+      Get.snackbar('Success', 'Google sign-in successful');
+      Get.toNamed(RoutesConstant.home); // Navigate to the home screen
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
     }
   }
 

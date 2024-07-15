@@ -1,8 +1,15 @@
 class Passenger {
-  String name;
-  String gender;
-  String preference;
-  bool selected;
+  final String id;
+  final String name;
+  final String gender;
+  final int age;
+  final String preference;
 
-  Passenger({required this.name, required this.gender, required this.preference, this.selected = false});
+  Passenger({
+    required this.id,
+    required this.name,
+    required this.gender,
+    required this.age,
+    required this.preference,
+  });
 }

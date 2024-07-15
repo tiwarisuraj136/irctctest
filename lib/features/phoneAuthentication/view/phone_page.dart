@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:irctctest/features/phoneAuthentication/controller/phone_controller.dart';
-import 'package:pinput/pinput.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 
 
 class PhonePage extends GetView<PhoneController> {
@@ -9,157 +9,147 @@ class PhonePage extends GetView<PhoneController> {
 
   @override
   Widget build(BuildContext context) {
-    final defaultPinTheme = PinTheme(
-      width: 56,
-      height: 60,
-      textStyle: const TextStyle(
-        fontSize: 22,
-        color: Colors.black,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.lightGreen,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.transparent),
-      ),
-    );
     return Scaffold(
-      body: Stack(
-        children: [
-          // Background image
-          Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/background.jpg'), // Replace with your image path
-                fit: BoxFit.cover,
+      body: Center(
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/background.jpg"),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
-          // Main content
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              color: Colors.white.withOpacity(0.8), // Background color for better text visibility
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'Enter your mobile number to receive an OTP',
-                    style: TextStyle(fontSize: 18, color: Colors.grey[700]),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    controller: controller.mobileNumberController,
-                    keyboardType: TextInputType.phone,
-                    decoration: InputDecoration(
-                      labelText: 'Mobile Number',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      prefixIcon: const Icon(Icons.phone),
+            Obx(
+                  () => SingleChildScrollView(
+                child: Container(
+                  height: !controller.otpSent.value ? 300 : 600,
+                  width: double.infinity,
+                  color: Colors.white.withOpacity(0.7),
+                  child: Form(
+                    key: controller.loginKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          "Enter your mobile number to receive an OTP",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 22, color: Colors.grey[800]),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0, vertical: 8.0),
+                          child: TextFormField(
+                            controller: controller.phoneController,
+                            keyboardType: TextInputType.number,
+                            enabled: !controller.otpSent.value,
+                            decoration: InputDecoration(
+                              labelText: "Mobile Number",
+                              hintText: "Enter Phone Number",
+                              prefixText: "+91",
+                              prefixIcon: const Icon(Icons.phone),
+                              border: OutlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.black),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            validator: controller.validatePhone,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 8.0, top: 4, right: 8.0, bottom: 16),
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: controller.formValidate,
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.purple),
+                              child: const Text(
+                                "Get OTP",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ),
+                        if (controller.otpSent.value)
+                          Column(
+                            children: [
+                              Text(
+                                "Enter the Code Sent to your Number",
+                                style: TextStyle(color: Colors.grey[800]),
+                              ),
+                              InkWell(
+                                onTap: controller.onEdit,
+                                child: Text(
+                                  "+91 ${controller.phoneController.text}",
+                                  style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Obx(()=>
+                                  Padding(
+                                    padding: const EdgeInsets.all(12),
+                                    child: PinFieldAutoFill(
+                                      controller: controller.otpController,
+                                      codeLength: 6,
+                                      currentCode: controller.codeValue.value,
+                                      decoration: BoxLooseDecoration(bgColorBuilder: FixedColorBuilder(Colors.green[800]!), strokeColorBuilder: FixedColorBuilder(Colors.green[800]!)),
+                                      keyboardType:TextInputType.number ,
+                                    ),),
+                              ),
+                              Obx(
+                                    () => TextButton(
+                                  onPressed: controller.flag.value
+                                      ? controller.resendOtp
+                                      : null,
+                                  child: Text(
+                                    controller.flag.value
+                                        ? "Resend OTP"
+                                        : "Time Remaining ${controller.counter.value} \n",
+                                    style: const TextStyle(
+                                        fontSize: 12, color: Colors.red),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8.0, top: 4, right: 8.0, bottom: 16),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: ElevatedButton(
+                                    onPressed: controller.verifyOTP,
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.purple),
+                                    child: const Text(
+                                      "Verify",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Obx(
+                                    () => Text(
+                                  !controller.verified.value ? "Wrong OTP" : "",
+                                  style: const TextStyle(
+                                      fontSize: 12, color: Colors.red),
+                                ),
+                              ),
+                            ],
+                          ),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: controller.saveMobileNumber,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.deepPurple,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: const Text(
-                      'Get OTP',
-                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Obx(() {
-                    if (controller.isOTPSent.value) {
-                      return Column(
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.symmetric(vertical: 40),
-                            child: const Text(
-                              "Enter the code sent to your number",
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 18,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(bottom: 40),
-                            child: const Text(
-                              "+93 744 795 640",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 18,
-                              ),
-                            ),
-                          ),
-                          Pinput(
-                            length: 5,
-                            defaultPinTheme: defaultPinTheme,
-                            focusedPinTheme: defaultPinTheme.copyWith(
-                              decoration: defaultPinTheme.decoration!.copyWith(
-                                border: Border.all(color: Colors.green),
-                              ),
-                            ),
-                            onCompleted: (pin) => debugPrint(pin),
-                          ),
-                          const SizedBox(height: 20),
-                          Obx(() => Text(
-                            'Time remaining: ${controller.timerSeconds.value}s',
-                            style: const TextStyle(fontSize: 16, color: Colors.red),
-                          )),
-                          const SizedBox(height: 20),
-                          ElevatedButton(
-                            onPressed: controller.verifyOTP,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.deepPurple,
-                              padding: const EdgeInsets.symmetric(vertical: 16),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            child: const Text(
-                              'Verify OTP',
-                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 10),
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          Obx(() {
-                            if (controller.isOTPVerified.value) {
-                              return const Text(
-                                'OTP Verified',
-                                style: TextStyle(fontSize: 16, color: Colors.green),
-                              );
-                            } else {
-                              return const Text(
-                                'OTP Verification Failed',
-                                style: TextStyle(fontSize:
-                                16, color: Colors.red),
-                              );
-                            }
-                          }),
-                        ],
-                      );
-                    } else {
-                      return Container();
-                    }
-                  }),
-                ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
+

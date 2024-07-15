@@ -132,6 +132,8 @@ class LoginPageView extends GetView<LoginPageController>{
                         icon: const Icon(FontAwesomeIcons.google),
                         iconSize: 35,
                         onPressed: () {
+                          print("jkdkj");
+                          controller.signInWithGoogle();
                           // Handle Google login
                         },
                       ),
@@ -139,7 +141,7 @@ class LoginPageView extends GetView<LoginPageController>{
                         icon: const Icon(Icons.call),
                         iconSize: 40,
                         onPressed: () {
-                          Get.toNamed('/phone'); // Replace with your route
+                          Get.toNamed(RoutesConstant.phone); // Replace with your route
                           // Handle Otp login
                         },
                       ),
